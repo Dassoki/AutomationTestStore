@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -27,7 +28,7 @@ public class MyTestCases {
 	
 	
 	@Test(priority = 1)
-	public void Signup() {
+	public void Signup() throws InterruptedException {
 		
 		driver.navigate().to(SignupPage);
 		//element
@@ -44,8 +45,10 @@ public class MyTestCases {
 		WebElement LoginInput = driver.findElement(By.id("AccountFrm_loginname"));
 		WebElement PassowrdInput = driver.findElement(By.id("AccountFrm_password"));
 		WebElement Passowrd2Input = driver.findElement(By.id("AccountFrm_confirm"));
-		
-		
+		WebElement CheckBoxInput = driver.findElement(By.id("AccountFrm_agree"));
+		WebElement CointnueButton = driver.findElement(By.cssSelector(".btn.btn-orange.pull-right.lock-on-click"));
+		WebElement CountrySelect = driver.findElement(By.id("AccountFrm_country_id"));
+		WebElement StateSelect = driver.findElement(By.id("AccountFrm_zone_id"));
 		//data
 		String [] FirstName = {"Abdulrahman" , "Abdllah" , "Ali" , "Samer"};
 		int randomIndexForFirstNames = rand.nextInt(FirstName.length);
@@ -80,10 +83,29 @@ public class MyTestCases {
 		Address1Input.sendKeys(Address1);
 		Address2Input.sendKeys(Address2);
 		CityInput.sendKeys(City);
+		
+		
+		Select MySelectionForCountry = new Select(CountrySelect);
+		Select MySelectionForState = new Select(StateSelect);
+		
+		
+		int numberOfCountries = CountrySelect.findElements(By.tagName("option")).size();
+		int RandomCountryIndex = rand.nextInt(1,numberOfCountries);
+		MySelectionForCountry.selectByIndex(RandomCountryIndex);
+		
+		Thread.sleep(1000);
+		
+		int numberOfOptionState = StateSelect.findElements(By.tagName("option")).size();
+		int RandomStateIndex = rand.nextInt(1,numberOfOptionState);
+		MySelectionForState.selectByIndex(RandomStateIndex);
+		
+		
 		PostalCodeInput.sendKeys(PostalCode);
 		LoginInput.sendKeys(Login);
 		PassowrdInput.sendKeys(Password);
 		Passowrd2Input.sendKeys(Password);
+		CheckBoxInput.click();
+		CointnueButton.click();
 	}
 
 	
